@@ -3,6 +3,6 @@ fun main(args: Array<String>) {
 	for (testCase in testCases) {
 		val image = read(testCase)
 		write(image, testCase, "0_original")
-		solve(image, testCase)
+		raster(image, testCase)
 	}
 }
