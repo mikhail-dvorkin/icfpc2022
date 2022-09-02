@@ -1,3 +1,4 @@
+import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -13,11 +14,15 @@ fun colorScore(image1: List<IntArray>, image2: List<IntArray>): Double {
 
 fun emptyField(hei: Int, wid: Int) = List(hei) { IntArray(wid) }
 
-const val colorDistanceCoefficient = 0.05
+const val colorDistanceCoefficient = 0.005
+
+fun Int.toRGBA() = Color(this, true).let {
+	listOf(it.red, it.green, it.blue, it.alpha)
+}
 
 fun colorDistance(color1: Int, color2: Int): Double {
 	val sumSquares = (0..3).sumOf { i ->
-		val diff = (color1 shr (8 * i) and 255) - (color2 shr (8 * i) and 255)
+		val diff = (color1 ushr (8 * i) and 255) - (color2 ushr (8 * i) and 255)
 		diff * diff
 	}
 	return sqrt(sumSquares.toDouble()) * colorDistanceCoefficient
@@ -31,10 +36,10 @@ fun read(testCase: Int): List<IntArray> {
 	val wid = bufferedImage.width
 	val array = List(hei) { y -> IntArray(wid) { x ->
 		val p = bufferedImage.getRGB(x, y)
-		assert((p shr 24) == 255)
+		require((p ushr 24) == 255)
 		p
 	}}
-	return array
+	return array.reversed()
 }
 
 val picNameMap = mutableMapOf<Int, Int>()
@@ -49,7 +54,15 @@ fun write(image: List<IntArray>, testCase: Int, picName: String = "") {
 	val file = File(picsDir, "${testCase}_${fileName}.$format")
 	val hei = image.size
 	val wid = image[0].size
+	val converted = image.reversed()
 	val bufferedImage = BufferedImage(wid, hei, BufferedImage.TYPE_INT_ARGB)
-	for (y in 0 until hei) for (x in 0 until wid) bufferedImage.setRGB(x, y, image[y][x])
+	for (y in 0 until hei) for (x in 0 until wid) bufferedImage.setRGB(x, y, converted[y][x])
 	ImageIO.write(bufferedImage, format, file)
 }
+
+
+const val BASE_LINE_CUT = 7
+const val BASE_POINT_CUT = 7
+const val BASE_MERGE = 1
+const val BASE_COLOR = 5
+const val BASE_SWAP = 3
