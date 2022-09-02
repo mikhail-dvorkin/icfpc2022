@@ -1,4 +1,5 @@
 fun raster(image: List<IntArray>, testCase: Int): Triple<IntArray, IntArray, List<IntArray>> {
+	write(image, testCase, "original")
 	val xs = xs(image)
 	println(xs)
 	val ys = xs(image.transposed())
@@ -15,7 +16,7 @@ fun raster(image: List<IntArray>, testCase: Int): Triple<IntArray, IntArray, Lis
 			medianImage[y][x] = medians[i][j]
 		}
 	}
-	write(medianImage, testCase, "1_medians")
+	write(medianImage, testCase, "medians")
 	return Triple(xs.toIntArray(), ys.toIntArray(), medians)
 }
 
