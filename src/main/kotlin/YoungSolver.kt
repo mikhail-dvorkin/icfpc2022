@@ -103,7 +103,8 @@ fun main() {
 
         val fixJuryBug = 1
         write(result, testId, "temp")
-        File("output", "$testId.out").printWriter().use {
+        val outputDir = File("output").also { it.mkdirs() }
+        File(outputDir, "$testId.out").printWriter().use {
             with(it) {
                 for ((lx, rx, ly, ry, color) in solution) {
                     when {
