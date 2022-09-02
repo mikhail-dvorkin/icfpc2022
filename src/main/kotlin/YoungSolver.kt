@@ -89,7 +89,7 @@ fun main() {
 
 
 //        val solution = YoungSolver().solve(xs, ys, data)
-        val (xs1, ys1, data1) = raster(input, testId)
+        val (ys1, xs1, data1) = raster(input, testId)
         val solution = YoungSolver().solve(xs1, ys1, data1)
         var id = 0
         val result = List(input.size) { IntArray(input[0].size) }
