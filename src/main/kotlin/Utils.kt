@@ -61,7 +61,7 @@ fun write(image: List<IntArray>, testCase: Int, picName: String) {
 
 
 const val BASE_LINE_CUT = 7
-const val BASE_POINT_CUT = 7
+const val BASE_POINT_CUT = 10
 const val BASE_MERGE = 1
 const val BASE_COLOR = 5
 const val BASE_SWAP = 3
