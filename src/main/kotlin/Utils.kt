@@ -14,6 +14,7 @@ fun colorScore(image1: List<IntArray>, image2: List<IntArray>): Int {
 }
 
 fun emptyField(hei: Int, wid: Int) = List(hei) { IntArray(wid) }
+fun List<IntArray>.transposed() = this[0].indices.map { i -> map { it[i] }.toIntArray() }
 
 const val colorDistanceCoefficient = 0.005
 
