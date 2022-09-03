@@ -46,10 +46,10 @@ val picNameMap = mutableMapOf<Int, Int>()
 
 fun write(image: List<IntArray>, testCase: Int, picName: String) {
 	picNameMap[testCase] = picNameMap.getOrDefault(testCase, 0) + 1
-	val fileName = picNameMap[testCase].toString().padStart(3, '0') + "_" + picName
+	val fileName = testCase.toString().padStart(2, '0') + "_" + picNameMap[testCase].toString().padStart(1, '0') + "_" + picName
 	val format = "png"
 	val picsDir = File("pics").also { it.mkdirs() }
-	val file = File(picsDir, "${testCase}_${fileName}.$format")
+	val file = File(picsDir, "$fileName.$format")
 	val hei = image.size
 	val wid = image[0].size
 	val converted = image.reversed()
