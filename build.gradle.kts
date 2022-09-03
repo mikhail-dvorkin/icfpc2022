@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
+    kotlin("plugin.serialization") version "1.7.10"
     application
 }
 
@@ -17,6 +18,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:2.1.0")
     implementation("io.ktor:ktor-client-auth:2.1.0")
     implementation("io.ktor:ktor-client-websockets:2.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 }
 
 tasks.test {
