@@ -21,11 +21,12 @@ fun raster(image: List<IntArray>, testCase: Int): Triple<IntArray, IntArray, Lis
 
 fun List<IntArray>.transposed() = this[0].indices.map { i -> map { it[i] }.toIntArray() }
 
-fun xs(image: List<IntArray>, magic: Int = 20): List<Int> {
+fun xs(image: List<IntArray>): List<Int> {
 	val inf = 1e99
 	val hei = image.size
 	val wid = image[0].size
-	val minGap = wid / magic / 4
+	val magic = rasterCount
+	val minGap = rasterMinSide
 	val diffs = DoubleArray(wid - 1)
 	for (y in 0 until hei) {
 		for (x in 1 until wid) {
@@ -52,6 +53,7 @@ fun xs(image: List<IntArray>, magic: Int = 20): List<Int> {
 		val xx = dpHow[x][k]
 		return way(xx, k - 1) + x
 	}
+//	println("$minGap ${way(wid, magic)}")
 	return way(wid, magic)
 }
 

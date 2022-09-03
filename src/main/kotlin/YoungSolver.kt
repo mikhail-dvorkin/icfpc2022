@@ -1,7 +1,6 @@
 import io.ktor.client.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
-import io.ktor.client.request.*
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -123,7 +122,8 @@ fun main() {
         println("$scoreMoves\t+\t$scoreColors\t= $scoreTotal")
         write(result, testId, "temp")
         val outputDir = File("output").also { it.mkdirs() }
-        File(outputDir, "$testId.out").printWriter().use {
+        val fileName = testId.toString().padStart(2, '0') + "_" + scoreTotal.toString().padStart(5, '0') + "_" + settingsLabel() + ".txt"
+        File(outputDir, fileName).printWriter().use {
             with(it) {
                 for ((lx, rx, ly, ry, color) in solution) {
                     when {
