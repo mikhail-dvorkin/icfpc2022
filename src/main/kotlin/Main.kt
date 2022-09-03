@@ -1,8 +1,7 @@
-fun main(args: Array<String>) {
-	val testCases = 1..10
+fun main() {
+//	runYoungSolver()
+	val testCases = 26..30
 	for (testCase in testCases) {
-		val image = read(testCase)
-		write(image, testCase, "0_original")
-		raster(image, testCase)
+		solveSwaps(testCase)
 	}
 }

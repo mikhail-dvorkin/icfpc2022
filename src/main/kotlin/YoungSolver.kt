@@ -81,7 +81,7 @@ class YoungSolver {
     }
 }
 
-fun main() {
+fun runYoungSolver() {
     val client = HttpClient {
         install(Auth) {
             bearer { BearerTokens("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2hhaWwuZHZvcmtpbkBnbWFpbC5jb20iLCJleHAiOjE2NjIyMTQwODEsIm9yaWdfaWF0IjoxNjYyMTI3NjgxfQ.euR3KZDg7mnXoe6R-Cj9JYBwfN7bzgEZsSU0r1NQ8vo", "") }

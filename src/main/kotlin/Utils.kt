@@ -18,8 +18,14 @@ fun List<IntArray>.transposed() = this[0].indices.map { i -> map { it[i] }.toInt
 
 const val colorDistanceCoefficient = 0.005
 
-fun Int.toRGBA() = Color(this, true).let {
-	listOf(it.red, it.green, it.blue, it.alpha)
+//fun Int.toRGBA() = Color(this, true).let {
+//	listOf(it.red, it.green, it.blue, it.alpha)
+//}
+fun Int.toRGBA() = List(4) { this ushr (8 * it) and 255 }
+
+fun List<Int>.toColor(): Int {
+	require(this.all { it in 0..255 })
+	return this.withIndex().sumOf { it.value shl (8 * it.index) }
 }
 
 fun colorDistance(color1: Int, color2: Int): Double {
@@ -30,10 +36,10 @@ fun colorDistance(color1: Int, color2: Int): Double {
 	return sqrt(sumSquares.toDouble()) * colorDistanceCoefficient
 }
 
-fun read(testCase: Int): List<IntArray> {
-	val file = File("input", "$testCase.png")
+fun read(testCase: Int, readInitial: Boolean = false): List<IntArray> {
+	val file = File("input", "$testCase${if (readInitial) ".initial" else ""}.png")
 	val bufferedImage = ImageIO.read(file)
-	val q = bufferedImage.getRGB(0, 0)
+	println(bufferedImage)
 	val hei = bufferedImage.height
 	val wid = bufferedImage.width
 	val array = List(hei) { y -> IntArray(wid) { x ->
