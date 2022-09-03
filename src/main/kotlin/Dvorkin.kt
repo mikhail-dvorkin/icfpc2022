@@ -1,7 +1,6 @@
 fun raster(image: List<IntArray>, testCase: Int): Triple<IntArray, IntArray, List<IntArray>> {
 	write(image, testCase, "original")
 	val xs = xs(image)
-	println(xs)
 	val ys = xs(image.transposed())
 	fun median(yFrom: Int, xFrom: Int, yTo: Int, xTo: Int): Int {
 		val colors = (yFrom until yTo).flatMap { image[it].slice(xFrom until xTo) }

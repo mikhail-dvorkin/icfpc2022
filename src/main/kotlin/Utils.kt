@@ -2,14 +2,15 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-fun colorScore(image1: List<IntArray>, image2: List<IntArray>): Double {
+fun colorScore(image1: List<IntArray>, image2: List<IntArray>): Int {
 	var result = 0.0
 	for (y in image1.indices) for (x in image1[y].indices) {
 		result += colorDistance(image1[y][x], image2[y][x])
 	}
-	return result
+	return result.roundToInt()
 }
 
 fun emptyField(hei: Int, wid: Int) = List(hei) { IntArray(wid) }

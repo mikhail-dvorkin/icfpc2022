@@ -26,7 +26,7 @@ fun bestMergeCost(x: Int, xl:Int, y:Int, yl:Int) :Int {
 class YoungSolver {
     val cache = mutableMapOf<String, Int>()
 
-    fun solve(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): List<Rectangle> {
+    fun solve(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): Pair<Int, List<Rectangle>> {
         require(colorIds.size + 1 == xs.size)
         require(colorIds.all { it.size + 1 == ys.size })
         val r = xs.size - 1
@@ -58,9 +58,8 @@ class YoungSolver {
             }
         }
         val score = go(IntArray(r) { 0 })
-        println(score)
         var cur = IntArray(r) { 0 }
-        return buildList {
+        return score to buildList {
             while (!cur.all { it == c }) {
                 val (next, move) = moves(cur).first { (nxt, rect) -> go(nxt) + rect.cost == go(cur) }
                 add(Rectangle(xs[move.lx], xs.last(), ys[move.ly], ys.last(), move.color))
@@ -71,7 +70,8 @@ class YoungSolver {
 }
 
 fun main() {
-    for (testId in 1 .. 10) {
+    for (testId in 1 .. 25) {
+        print("$testId) ")
         val input = read(testId)
         val BLOCK = 40
         val xs = (0..400 step BLOCK).toList().toIntArray()
@@ -87,10 +87,9 @@ fun main() {
             }
         }.map { it.toList().toIntArray() }.toList()
 
-
 //        val solution = YoungSolver().solve(xs, ys, data)
         val (ys1, xs1, data1) = raster(input, testId)
-        val solution = YoungSolver().solve(xs1, ys1, data1)
+        val (scoreMoves, solution) = YoungSolver().solve(xs1, ys1, data1)
         var id = 0
         val result = List(input.size) { IntArray(input[0].size) }
         for ((lx, rx, ly, ry, color) in solution) {
@@ -100,8 +99,11 @@ fun main() {
                 }
             }
         }
+        val scoreColors = colorScore(result, input)
+        val scoreTotal = scoreMoves + scoreColors
+        println("$scoreMoves\t+\t$scoreColors\t= $scoreTotal")
 
-        val fixJuryBug = 1
+        val fixJuryBug = 0
         write(result, testId, "temp")
         val outputDir = File("output").also { it.mkdirs() }
         File(outputDir, "$testId.out").printWriter().use {
