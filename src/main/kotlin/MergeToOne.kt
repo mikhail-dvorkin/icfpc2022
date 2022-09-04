@@ -11,7 +11,7 @@ fun mergeToOne(testCase: Int): List<String> {
 	val hei = image.size
 	val wid = image[0].size
 	val totalArea = hei * wid
-	val imageOriginal = read(testCase, true)
+//	val imageOriginal = read(testCase, true)
 	val picture = readJson(testCase)
 	require(picture.width == wid)
 	require(picture.height == hei)
@@ -47,7 +47,6 @@ fun mergeToOne(testCase: Int): List<String> {
 	}
 	//print("\ttotalMerge: $totalMergeCost\t")
 	val program = mutableListOf<String>()
-	var score = totalMergeCost
 	var blockCount = blocks.size
 	val rowBlocks = IntArray(m)
 	for (i in 0 until m) {
