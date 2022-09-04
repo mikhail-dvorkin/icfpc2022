@@ -25,15 +25,11 @@ fun solveSwaps(testCase: Int) {
 		}
 		score
 	} }
-	println(e[0].contentToString())
-	print(colorScore(image, imageOriginal))
-	print(" == ")
-	println(e.indices.map { e[it][it] }.sum())
-	println(e.indices.map { e[it][it] }.sum() / blocks.size)
+	print("colorScore per block: " + e.indices.map { e[it][it] }.sum() / blocks.size)
 	val area = (blocks[0].topRight[0] - blocks[0].bottomLeft[0]) * (blocks[0].topRight[1] - blocks[0].bottomLeft[1])
-	println(area)
-	println((BASE_SWAP.toDouble() * hei * wid / area).roundToInt())
-	println((BASE_COLOR.toDouble() * hei * wid / area).roundToInt())
+	print("\tswap per block: " + (BASE_SWAP.toDouble() * hei * wid / area).roundToInt())
+	print("\tcolor per block: " + (BASE_COLOR.toDouble() * hei * wid / area).roundToInt())
+	println("\tmerge per block: " + (BASE_MERGE.toDouble() * hei * wid / area).roundToInt())
 }
 
 @OptIn(ExperimentalSerializationApi::class)
