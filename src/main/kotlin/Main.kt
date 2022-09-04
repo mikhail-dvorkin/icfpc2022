@@ -2,11 +2,11 @@ import java.io.File
 
 fun main() {
 	var sumScores = 0
-	for (testId in 1..35) {
+	for (testId in 1..40) {
 		print("$testId)\t")
 		val program = mutableListOf<String>()
 		var blockCount = 1
-		if (testId > 25) {
+		if (testId in 26..35) {
 			program.addAll(mergeToOne(testId))
 			blockCount = program.last().drop(2).toInt()
 		}
