@@ -27,8 +27,15 @@ fun youngSolver(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): Pair<Int,
 		)
 	}
 
-	fun ourMoveCost(x: Int, y: Int) {
-
+	fun ourMoveCost(x: Int, y: Int): Int {
+		val colorCost = opCost(BASE_COLOR, (wid - x) * (hei - y), wid * hei)
+		val mergeCost = bestMergeCost(x, y)
+		val cutCost = when {
+			x != 0 && y != 0 -> BASE_POINT_CUT
+			x != 0 || y != 0 -> BASE_LINE_CUT
+			else -> 0
+		}
+		return cutCost + colorCost + mergeCost
 	}
 
 	val cache = mutableMapOf<String, Int>()
@@ -43,14 +50,7 @@ fun youngSolver(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): Pair<Int,
 			if (a[i] < (a.getOrNull(i - 1) ?: c)) {
 				require(i < r)
 				require(a[i] < c)
-				val cutCost = when {
-					i != 0 && a[i] != 0 -> BASE_POINT_CUT
-					i != 0 || a[i] != 0 -> BASE_LINE_CUT
-					else -> 0
-				}
-				val colorCost = (BASE_COLOR.toDouble() * gridSize / (xs.last() - xs[i]) / (ys.last() - ys[a[i]])).roundToInt()
-				val mergeCost = bestMergeCost(xs[i], ys[a[i]])
-				val cost = cutCost + colorCost + mergeCost
+				val cost = ourMoveCost(xs[i], ys[a[i]])
 				val na = a.clone().apply { set(i, a[i] + 1) }
 				add(na to InnerRectangle(i, a[i], colorIds[i][a[i]], cost))
 			}
