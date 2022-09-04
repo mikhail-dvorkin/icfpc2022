@@ -7,6 +7,7 @@ fun raster(image: List<IntArray>, testCase: Int): Triple<IntArray, IntArray, Lis
 		return (0..3).sumOf { i ->
 			colors.map { it ushr (8 * i) and 255 }.sorted()[colors.size / 2] shl (8 * i)
 		}
+//		return colors.groupBy { it }.maxByOrNull { it.value.size }!!.key
 	}
 	val medians = List(ys.size - 1) { i -> IntArray(xs.size - 1) { j -> median(ys[i], xs[j], ys[i + 1], xs[j + 1])} }
 	val medianImage = List(ys.last()) { IntArray(xs.last()) }
