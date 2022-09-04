@@ -1,3 +1,4 @@
+#!/bin/bash
 token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2hhaWwuZHZvcmtpbkBnbWFpbC5jb20iLCJleHAiOjE2NjIyOTQzOTEsIm9yaWdfaWF0IjoxNjYyMjA3OTkxfQ.XQvEEm_DwOiO8dzU00LCUOLJjTDjtBRBACeCVGQUZqM
 cd ../output/
 rm best.txt
