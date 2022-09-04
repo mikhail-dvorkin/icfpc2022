@@ -66,9 +66,10 @@ fun write(image: List<IntArray>, testCase: Int, picName: String) {
 	ImageIO.write(bufferedImage, format, file)
 }
 
-fun solved(program: List<String>, testCase: Int) {
+fun solved(program: List<String>, testCase: Int): Int {
 	val score = program.filter { it.startsWith("#$") }.sumOf { it.drop(2).toInt() }
 	val outputDir = File("output").also { it.mkdirs() }
 	val fileName = testCase.toString().padStart(2, '0') + "_" + score.toString().padStart(5, '0') + "_" + settingsLabel() + ".txt"
 	File(outputDir, fileName).printWriter().use { it.println(program.joinToString("\n")) }
+	return score
 }
