@@ -7,7 +7,7 @@ fun main() {
 		val program = mutableListOf<String>()
 		var blockCount = 1
 		if (testId > 25) {
-			program.addAll(solveSwaps(testId))
+			program.addAll(mergeToOne(testId))
 			blockCount = program.last().drop(2).toInt()
 		}
 		program.addAll(runYoungSolver(testId, blockCount))
