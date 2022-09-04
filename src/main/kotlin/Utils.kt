@@ -66,9 +66,9 @@ fun write(image: List<IntArray>, testCase: Int, picName: String) {
 	ImageIO.write(bufferedImage, format, file)
 }
 
-
-const val BASE_LINE_CUT = 7
-const val BASE_POINT_CUT = 10
-const val BASE_MERGE = 1
-const val BASE_COLOR = 5
-const val BASE_SWAP = 3
+fun solved(program: List<String>, testCase: Int) {
+	val score = program.filter { it.startsWith("#$") }.sumOf { it.drop(2).toInt() }
+	val outputDir = File("output").also { it.mkdirs() }
+	val fileName = testCase.toString().padStart(2, '0') + "_" + score.toString().padStart(5, '0') + "_" + settingsLabel() + ".txt"
+	File(outputDir, fileName).printWriter().use { it.println(program.joinToString("\n")) }
+}

@@ -74,6 +74,9 @@ fun readJson(testCase: Int) = Json.decodeFromStream<Picture>(File("input", "$tes
 @Serializable
 data class Block(val blockId: Int, val bottomLeft: List<Int>, val topRight: List<Int>, val color: List<Int>)
 private fun Block.color() = color.toColor()
+private fun Block.width() = topRight[0] - bottomLeft[0]
+private fun Block.height() = topRight[1] - bottomLeft[1]
+private fun Block.size() = width() * height()
 @Serializable
 data class Picture(val width: Int, val height: Int, val blocks: List<Block>)
 
