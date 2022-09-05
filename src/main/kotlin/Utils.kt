@@ -67,7 +67,6 @@ fun read(testCase: Int, readInitial: Boolean = false): List<IntArray> {
 val picNameMap = mutableMapOf<Int, Int>()
 
 fun write(image: List<IntArray>, testCase: Int, picName: String) {
-	/*
 	picNameMap[testCase] = picNameMap.getOrDefault(testCase, 0) + 1
 	val fileName = testCase.toString().padStart(2, '0') + "_" + picNameMap[testCase].toString().padStart(1, '0') + "_" + picName
 	val format = "png"
@@ -80,7 +79,6 @@ fun write(image: List<IntArray>, testCase: Int, picName: String) {
 	val bufferedImage = BufferedImage(wid, hei, BufferedImage.TYPE_INT_ARGB)
 	for (y in 0 until hei) for (x in 0 until wid) bufferedImage.setRGB(x, y, converted[y][x])
 	ImageIO.write(bufferedImage, format, file)
-	 */
 }
 
 fun solved(program: List<String>, testCase: Int): Int {

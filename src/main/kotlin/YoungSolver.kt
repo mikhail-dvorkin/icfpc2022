@@ -36,7 +36,7 @@ fun youngSolver(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): Pair<Int,
 			}
 		}
 	}
-	val score = go(IntArray(r) { 0 })
+//	val score = go(IntArray(r) { 0 })
 	var cur = IntArray(r) { 0 }
 	val moves = buildList {
 		while (!cur.all { it == c }) {
@@ -49,16 +49,16 @@ fun youngSolver(xs: IntArray, ys: IntArray, colorIds: List<IntArray>): Pair<Int,
 	val field = List(ys.size) { IntArray(xs.size) }
 	var theScore = 0
 	for (move in moves) {
-		val c = colorIds[move.lx][move.ly]
-		val colorDist = colorDistance(field[move.ly][move.lx], c)
+		val colorHere = colorIds[move.lx][move.ly]
+		val colorDist = colorDistance(field[move.ly][move.lx], colorHere)
 		if (colorDist == 0.0) continue
 //		val colorCost = colorDist * (xs[move.lx + 1] - xs[move.lx]) * (ys[move.ly + 1] - ys[move.ly])
 		val colorCost = colorDist * (wid - xs[move.lx]) * (hei - ys[move.ly])
 		val ourMoveCost = ourMoveCost(xs[move.lx], ys[move.ly], wid, hei)
-//		if (colorCost < ourMoveCost) continue
-		for (y in move.ly until ys.size) for (x in move.lx until xs.size) field[y][x] = c
+		if (colorCost < ourMoveCost) continue
+		for (y in move.ly until ys.size) for (x in move.lx until xs.size) field[y][x] = colorHere
 		theScore += ourMoveCost
-		theMoves.add(Triple(xs[move.lx], ys[move.ly], c))
+		theMoves.add(Triple(xs[move.lx], ys[move.ly], colorHere))
 	}
 	return theScore to theMoves
 }
