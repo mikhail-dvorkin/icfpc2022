@@ -6,3 +6,5 @@ https://robovinci.xyz/
 Team: NoWar_kt
 
 Participants: Mikhail Dvorkin, Pavel Kunyavskiy
+
+Our total score: 984198
