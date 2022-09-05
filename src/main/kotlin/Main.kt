@@ -4,6 +4,13 @@ fun main() {
 	var sumScores = 0
 	for (testId in 1..40) {
 		print("$testId)\t")
+		if (testId >= 36) {
+			BASE_LINE_CUT = 2
+			BASE_POINT_CUT = 3
+			BASE_MERGE = 1
+			BASE_COLOR = 5
+			BASE_SWAP = 3
+		}
 		val program = mutableListOf<String>()
 		var blockCount = 1
 		if (testId in 26..35) {

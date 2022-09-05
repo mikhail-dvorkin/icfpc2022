@@ -13,10 +13,19 @@ fun colorScore(image1: List<IntArray>, image2: List<IntArray>): Int {
 	return result.roundToInt()
 }
 
+fun medianColor(colors: List<Int>): Int {
+	return (0..3).sumOf { i ->
+		colors.map { it ushr (8 * i) and 255 }.sorted()[colors.size / 2] shl (8 * i)
+	}
+}
+
 fun emptyField(hei: Int, wid: Int) = List(hei) { IntArray(wid) }
 fun List<IntArray>.transposed() = this[0].indices.map { i -> map { it[i] }.toIntArray() }
 
 const val colorDistanceCoefficient = 0.005
+
+val DX = intArrayOf(1, 0, -1, 0)
+val DY = intArrayOf(0, 1, 0, -1)
 
 fun Int.toRGBA() = Color(this, true).let {
 	listOf(it.red, it.green, it.blue, it.alpha)
