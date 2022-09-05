@@ -21,6 +21,11 @@ fun medianColor(colors: List<Int>): Int {
 
 fun emptyField(hei: Int, wid: Int) = List(hei) { IntArray(wid) }
 fun List<IntArray>.transposed() = this[0].indices.map { i -> map { it[i] }.toIntArray() }
+fun List<IntArray>.flipped() = this.reversed().map { it.reversedArray() }
+fun List<IntArray>.processed() = this
+	.let { if (flipXY()) it.transposed() else it }
+	.let { if (flipCoord()) it.flipped() else it }
+	.let { if (flipY()) it.reversed() else it }
 
 const val colorDistanceCoefficient = 0.005
 
@@ -56,23 +61,26 @@ fun read(testCase: Int, readInitial: Boolean = false): List<IntArray> {
 		require((p ushr 24) == 255)
 		p
 	}}
-	return array.reversed()
+	return array.reversed().processed()
 }
 
 val picNameMap = mutableMapOf<Int, Int>()
 
 fun write(image: List<IntArray>, testCase: Int, picName: String) {
+	/*
 	picNameMap[testCase] = picNameMap.getOrDefault(testCase, 0) + 1
 	val fileName = testCase.toString().padStart(2, '0') + "_" + picNameMap[testCase].toString().padStart(1, '0') + "_" + picName
 	val format = "png"
 	val picsDir = File("pics").also { it.mkdirs() }
 	val file = File(picsDir, "$fileName.$format")
-	val hei = image.size
-	val wid = image[0].size
-	val converted = image.reversed()
+	val theImage = image.processed()
+	val hei = theImage.size
+	val wid = theImage[0].size
+	val converted = theImage.reversed()
 	val bufferedImage = BufferedImage(wid, hei, BufferedImage.TYPE_INT_ARGB)
 	for (y in 0 until hei) for (x in 0 until wid) bufferedImage.setRGB(x, y, converted[y][x])
 	ImageIO.write(bufferedImage, format, file)
+	 */
 }
 
 fun solved(program: List<String>, testCase: Int): Int {

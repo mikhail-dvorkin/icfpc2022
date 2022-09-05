@@ -1,15 +1,42 @@
 import kotlin.math.roundToInt
 
-var BASE_LINE_CUT = 7
-var BASE_POINT_CUT = 10
-var BASE_MERGE = 1
-var BASE_COLOR = 5
-var BASE_SWAP = 3
+var BASE_LINE_CUT = -1
+var BASE_POINT_CUT = -1
+var BASE_MERGE = -1
+var BASE_COLOR = -1
+var BASE_SWAP = -1
 
-fun opCost(baseCost: Int, blockArea: Int, totalArea: Int) = (baseCost.toDouble() * totalArea / blockArea).roundToInt()
+fun opCost(baseCost: Int, blockArea: Int, totalArea: Int) = (baseCost.also { require(it > 0) }.toDouble() * totalArea / blockArea).roundToInt()
 
-fun opMerge(id1: String, id2: String) = "merge [$id1] [$id2]"
+private fun opMerge(id1: String, id2: String) = "merge [$id1] [$id2]"
 fun opMerge(id1: Int, id2: Int) = opMerge(id1.toString(), id2.toString())
+fun opMergeLineCut(id: Int) = opMerge("${id}.0", "${id}.1")
+fun opMergePointCut(id: Int, horizontal: Boolean) = if (horizontal xor flipXY()) {
+	listOf(opMerge("${id}.2", "${id}.1"), opMerge("${id}.0", "${id}.3"))
+} else {
+	listOf(opMerge("${id}.2", "${id}.3"), opMerge("${id}.0", "${id}.1"))
+}
+private fun opColor(id: String, color: Int) = "color [${id}] ${color.toRGBA()}"
+fun opColor(id: Int, color: Int) = opColor(id.toString(), color)
+fun opColorLineCutTopRight(id: Int, color: Int, horizontal: Boolean): String {
+	return opColor("${id}.${if (flipCoord() xor ((horizontal xor flipXY()) and flipY())) 0 else 1}", color)
+}
+fun opColorPointCutTopRight(id: Int, color: Int): String {
+	return opColor("${id}.${(if (flipCoord()) 0 else 2) xor (if (flipY()) 3 else 0)}", color)
+}
+fun opLineCut(id: Int, horizontal: Boolean, coord: Int, maxCoord: Int): String {
+	return "cut [${id}] [${if (horizontal xor flipXY()) "y" else "x"}] [${if (flipCoord() xor ((horizontal xor flipXY()) and flipY())) (maxCoord - coord) else coord}]"
+}
+fun opPointCut(id: Int, x: Int, y: Int, maxX: Int, maxY: Int): String {
+	var (xx, yy) = if (flipXY()) y to x else x to y
+	if (flipCoord()) { xx = maxX - xx; yy = maxY - yy }
+	if (flipY()) { yy = maxY - yy }
+	return "cut [${id}] [${xx}, ${yy}]"
+}
+
+fun flipXY() = (rotate % 2 != 0).also { require(!it) }
+fun flipCoord() = (rotate % 4) >= 2
+fun flipY() = rotate >= 4
 
 fun bestMergeCost(x: Int, y:Int, wid: Int, hei: Int) :Int {
 	if ((x == 0 || wid == x) && (y == 0 || hei == y)) return 0

@@ -110,7 +110,7 @@ fun runYoungSolver(testId: Int, blockCount: Int): List<String> {
 	for ((lx, ly, color) in solution) {
 		when {
 			lx != 0 && ly != 0 -> {
-				program.add("cut [${id}] [${ly}, ${lx}]")
+				program.add(opPointCut(id, ly, lx, hei, wid))
 				val p0 = lx * ly * 1.0 / wid / hei
 				val p1 = (wid - lx) * hei * 1.0 / wid / hei
 				val p3 = lx * (hei - ly) * 1.0 / wid / hei
@@ -120,34 +120,28 @@ fun runYoungSolver(testId: Int, blockCount: Int): List<String> {
 					maxOf(p0, p1).mergeCost + maxOf(p2, p3).mergeCost + maxOf(p0 + p1, p2 + p3).mergeCost
 				val s2 =
 					maxOf(p0, p3).mergeCost + maxOf(p1, p2).mergeCost + maxOf(p0 + p3, p1 + p2).mergeCost
-				program.add("color [${id}.2] ${color.toRGBA()}")
-				if (s1 < s2) {
-					program.add("merge [${id}.2] [${id}.1]")
-					program.add("merge [${id}.0] [${id}.3]")
-				} else {
-					program.add("merge [${id}.2] [${id}.3]")
-					program.add("merge [${id}.0] [${id}.1]")
-				}
-				program.add("merge [${id + 1}] [${id + 2}]")
+				program.add(opColorPointCutTopRight(id, color))
+				program.addAll(opMergePointCut(id, s1 < s2))
+				program.add(opMerge(id + 1, id + 2))
 				id += 3
 			}
 
 			lx != 0 -> {
-				program.add("cut [${id}] [y] [$lx]")
-				program.add("color [${id}.1] ${color.toRGBA()}")
-				program.add("merge [${id}.0] [${id}.1]")
+				program.add(opLineCut(id, true, lx, wid))
+				program.add(opColorLineCutTopRight(id, color, true))
+				program.add(opMergeLineCut(id))
 				id += 1
 			}
 
 			ly != 0 -> {
-				program.add("cut [${id}] [x] [$ly]")
-				program.add("color [${id}.1] ${color.toRGBA()}")
-				program.add("merge [${id}.0] [${id}.1]")
+				program.add(opLineCut(id, false, ly, hei))
+				program.add(opColorLineCutTopRight(id, color, false))
+				program.add(opMergeLineCut(id))
 				id += 1
 			}
 
 			else -> {
-				program.add("color [${id}] ${color.toRGBA()}")
+				program.add(opColor(id, color))
 			}
 		}
 	}
